@@ -8,3 +8,4 @@ Engineer.prototype = Object.create(Contact.prototype);
 Engineer.prototype.constructor = Engineer;
 
 module.exports = Engineer;
+

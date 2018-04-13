@@ -4,10 +4,12 @@
   "description": "A small repo to test jest vs mocha",
   "main": "index.js",
   "scripts": {
-    "test:jest": "jest ./src/*.test.*",
-    "test:jest:watch": "onchange ./src/** -- npm run test:jest",
-    "test:mocha": "node_modules/.bin/_mocha ./src/*.spec.*",
-    "test:mocha:watch": "onchange ./src/** -- npm run test:mocha"
+    "jest": "jest ./src/*.test.*",
+    "jest:watch": "jest ./src/*.test.* --watchAll",
+    "jest:coverage": "jest ./src/*.test.* --coverage",
+    "mocha": "node_modules/.bin/_mocha ./src/*.spec.*",
+    "mocha:watch": "node_modules/.bin/_mocha ./src/*.spec.* --watch",
+    "mocha:coverage": "node node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- ./src/*.spec.*"
   },
   "repository": {
     "type": "git",
@@ -25,6 +27,7 @@
   "homepage": "https://github.com/VtoCorleone/jest-vs-mocha#readme",
   "devDependencies": {
     "chai": "^4.1.2",
+    "istanbul": "1.1.0-alpha.1",
     "jest": "^22.4.3",
     "mocha": "^5.0.5",
     "onchange": "^3.3.0",

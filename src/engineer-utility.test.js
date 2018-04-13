@@ -3,7 +3,7 @@ const utility = require('./engineer-utility');
 
 jest.mock('./engineer');
 
-describe('contact-utility.js', () => {
+describe('engineer-utility.js', () => {
   describe('getEngineerName', () => {
     afterEach(() => jest.resetAllMocks());
     // You can setup a beforeAll to mock the exact mock
@@ -25,7 +25,6 @@ describe('contact-utility.js', () => {
           getName: () => {
             return 'Jane';
           },
-          getActivityDetails: jest.fn(),
         };
       });
       const name = utility.getEngineerName();
@@ -35,9 +34,6 @@ describe('contact-utility.js', () => {
     test('should return the engineer activity details', async () => {
       Engineer.mockImplementation(() => {
         return {
-          getName: () => {
-            return 'Jane';
-          },
           getActivityDetails: () => Promise.resolve(['walking', 'climbing']),
         };
       });
