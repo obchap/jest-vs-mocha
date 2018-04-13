@@ -38,41 +38,38 @@ describe('contact.js', () => {
       const contact = new Contact('Bill', 'engineer');
 
       sandbox.stub(axios, 'get').returns(Promise.resolve({ status: 200 }));
-      try {
-        const status = await contact.getActivityDetails('programming');
-        expect(status).to.equal(200);
-      } catch (error) {
-        expect.fail(error);
-      }
+      const status = await contact.getActivityDetails('programming');
+      expect(status).to.equal(200);
     });
 
     it('should call the correct URL', async () => {
       const contact = new Contact('Bill', 'engineer');
       const id = contact.id;
 
-      const getMock = sandbox.mock(axios, 'get').returns(Promise.resolve({ status: 200 }));
+      const getMock = sandbox
+        .mock(axios)
+        .expects('get')
+        .withArgs(`yoursite.com/user/${id}?activities=programming`)
+        .returns(Promise.resolve({ status: 200 }));
 
-      try {
-        const status = await contact.getActivityDetails('programming');
-        // expect(axios.get).toBeCalledWith(`yoursite.com/user/${id}?activities=programming`);
-        // console.log(getStub);
-        // expect(getStub.calledWith(`yoursite.com/user/${id}?activities=programming`)).to.equal(false);
-        getMock.verify();
-      } catch (error) {
-        expect.fail(error);
-      }
+      const status = await contact.getActivityDetails('programming');
+      getMock.verify();
     });
 
-    // test('should return an error when axios fails', async () => {
-    //   const contact = new Contact('Bill', 'engineer');
+    it('should call the correct URL', async () => {
+      const contact = new Contact('Bill', 'engineer');
+      const id = contact.id;
 
-    //   axios.get.mockRejectedValue(new Error('failed to get site'));
-    //   try {
-    //     const status = await contact.getActivityDetails('programming');
-    //     fail('Should not have successfully gotten a response');
-    //   } catch (error) {
-    //     expect(error.message).toBe('failed to get site');
-    //   }
-    // });
+      const getMock = sandbox
+        .mock(axios)
+        .expects('get')
+        .returns(Promise.reject(new Error('failed to get site')));
+      try {
+        await contact.getActivityDetails('programming');
+        expect.fail();
+      } catch (error) {
+        expect(error.message).to.equal('failed to get site');
+      }
+    });
   });
 });
